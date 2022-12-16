@@ -1,0 +1,92 @@
+<html>
+<head>
+  <link href="/css/style.css" rel="stylesheet" type="text/css">
+  <style>
+      body {
+        font-family: sans-serif;
+        color:black;
+        background-color: white;
+        opacity: 1.0;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="startbg">
+  <p>
+    Click on me to learn more about me!
+  </p>
+
+  <!-- Display a random Pokémon card -->
+  <div class="card">
+    <!-- Fetch the Pokémon's information and display its name and image -->
+    <div class="name"></div>
+    <img src="" alt="Pokemon image">
+    <!-- Display additional information about the Pokémon when the card is clicked -->
+    <div class="info">
+      <div class="randomtxt">
+        Types: <span class="types"></span><br>
+        Height: <span class="height"></span><br>
+        Weight: <span class="weight"></span><br>
+        Abilities: <span class="abilities"></span>
+      </div>
+      
+    </div>
+  
+  </div>
+
+  <!-- add button to switch with current pokemon -->
+
+  <form action="/random" method="get">
+    <br><br><br><br><br><br>
+    <input class="button" type="submit" value="New Random Pokemon" />
+    
+    <p><a href="/about">Learn about us here!</a></p>
+  </form>
+
+  <script>
+    // Get a random Pokémon when the page loads
+    window.onload = function() {
+      // Generate a random Pokémon ID between 1 and 807 (the total number of Pokémon in the API)
+      const pokemonId = Math.floor(Math.random() * 807) + 1;
+
+      // Fetch the Pokémon's information from the PokeAPI
+      fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
+        .then(response => response.json())
+        .then(data => {
+          // Get the Pokémon card element
+          const card = document.querySelector('.card');
+
+          // Update the Pokémon's name and image
+          card.querySelector('.name').textContent = data.name;
+          card.querySelector('img').src = data.sprites.front_default;
+
+          // Update the Pokémon's types
+          const types = data.types.map(type => type.type.name).join(', ');
+          card.querySelector('.types').textContent = types;
+
+          // Update the Pokémon's height and weight
+          card.querySelector('.height').textContent = data.height;
+          card.querySelector('.weight').textContent = data.weight;
+
+          // Update the Pokémon's abilities
+          const abilities = data.abilities.map(ability => ability.ability.name).join(', ');
+          card.querySelector('.abilities').textContent = abilities;
+        });
+    };
+
+    // Toggle the Pokémon's additional information when the card is clicked
+    document.querySelector('.card').addEventListener
+    // Toggle the Pokémon's additional information when the card is clicked
+    document.querySelector('.card').addEventListener('click', function() {
+      this.querySelector('.info').style.display = this.querySelector('.info').style.display === 'block' ? 'none' : 'block';
+    });
+  </script>
+
+  </div>
+
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Pokemon Data</title>
+    <style>
+      /* Add some styling for the page */
+      body {
+        font-family: sans-serif;
+      }
+
+      .pokemon-container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .pokemon-card {
+        width: 200px;
+        border: 1px solid #ccc;
+        margin: 10px;
+        padding: 10px;
+      }
+
+      .pokemon-card img {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Create a container element to hold the Pokemon cards -->
+    <div class="pokemon-container"></div>
+
+    <!-- Add a script to fetch data from the PokeAPI and display it on the page -->
+    <script>
+      // Fetch data from the PokeAPI
+      fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
+        .then(response => response.json())
+        .then(data => {
+          // Get the container element
+          const container = document.querySelector(".pokemon-container");
+
+          // Iterate over the list of Pokemon
+          data.results.forEach(pokemon => {
+            // Create a new card element for each Pokemon
+            const card = document.createElement("div");
+            card.classList.add("pokemon-card");
+            card.addEventListener("click", () => {
+              // When the card is clicked, navigate to a new page with more detailed information about the Pokemon
+              window.location.href = `/pokemon.html?name=${pokemon.name}`;
+            });
+
+            // Fetch data for each Pokemon
+            fetch(pokemon.url)
+              .then(response => response.json())
+              .then(pokemonData => {
+                // Add the Pokemon's name and image to the card
+                card.innerHTML = `
+                  <h2>${pokemonData.name}</h2>
+                  <img src="${pokemonData.sprites.front_default}" alt="${pokemonData.name}" />
+                `;
+              });
+
+            // Add the card to the container
+            container.appendChild(card);
+          });
+        });
+    </script>
+  </body>
+</html>

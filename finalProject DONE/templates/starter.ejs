@@ -1,0 +1,115 @@
+<html>
+<head>
+
+  <link href="/css/style.css" rel="stylesheet" type="text/css">
+  <style>
+      body {
+        font-family: sans-serif;
+        color:black;
+      }
+
+  </style>
+
+</head>
+<body>
+  <!-- Display three Pokémon cards -->
+  <!-- <div class="bg"></div> -->
+  
+
+
+  <script>
+    window.onload = function() {
+      const pokemon = ["charmander", "bulbasaur", "squirtle"];
+
+      // Fetch the Pokémon's information from the PokeAPI and render a card for each Pokémon
+      pokemon.forEach(pokemon => {
+        // Fetch the Pokémon's information from the PokeAPI
+        fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+          .then(response => response.json())
+          .then(data => {
+            // Render a card for the Pokémon
+            const card = renderCard(data);
+
+            // Append the card to the page
+            document.getElementById('cards').appendChild(card);
+          });
+      });
+    };
+
+    // Render a Pokémon card
+    const renderCard = pokemon => {
+      // Create the card element
+      const card = document.createElement('div');
+      card.classList.add('card');
+
+      // Add an event listener to toggle the Pokémon's additional information when the card is clicked
+      card.addEventListener('click', function() {
+        //---------------------------------------------SOMEHOW HAVE TO INSERT THIS INTO THE DATABASE-----------------------------------------
+
+        this.querySelector('.info').style.display = this.querySelector('.info').style.display === 'block' ? 'none' : 'block'; 
+      });
+
+      // Add the Pokémon's name and image to the card
+      const name = document.createElement('div');
+      name.classList.add('name');
+      name.textContent = pokemon.name;
+      card.appendChild(name);
+
+      const image = document.createElement('img');
+      image.src = pokemon.sprites.front_default;
+      card.appendChild(image);
+
+      // Add additional information about the Pokémon to the card
+      const info = document.createElement('div');
+      info.classList.add('info');
+
+      const types = document.createElement('span');
+      types.classList.add('types');
+      types.textContent = pokemon.types.map(type => type.type.name).join(', ');
+      info.appendChild(types);
+
+      const height = document.createElement('span');
+      height.classList.add('height');
+      height.textContent = `Height: ${pokemon.height}`;
+      info.appendChild(height);
+
+      const weight = document.createElement('span');
+      weight.classList.add('weight');
+      weight.textContent = `Weight: ${pokemon.weight}`;
+      info.appendChild(weight);
+
+      const abilities = document.createElement('span');
+      abilities.classList.add('abilities');
+      abilities.textContent = pokemon.abilities.map(ability => ability.ability.name).join(', ');
+      info.appendChild(abilities);
+
+      card.appendChild(info);
+
+      return card;
+    };
+  </script>
+    <div class="startbg">
+      <div id="cards"></div>
+
+
+      <h1>Choose Your Starter!</h1> 
+    	    <form action="starter" method="post"> 
+    	                <fieldset> 
+    	                        <legend>Starter</legend> 
+    	                        <label><input type="radio" name="starterChoice" value="Charmander">Charmander</label> 
+                              <label><input type="radio" name="starterChoice" value="Squirtle">Squirtle</label> 
+                              <label><input type="radio" name="starterChoice" value="Bulbasaur">Bulbasaur</label> 
+    	                </fieldset> 
+    
+                    <br> 
+                    <input type="reset" /> 
+                    <input type="submit" value="Select" name="starterChoiceButton"/> 
+          </form> 
+
+    </div>
+    <a href="/about">Learn about us here!</a>
+
+
+</body>
+</html>
+

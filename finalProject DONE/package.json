@@ -1,0 +1,21 @@
+{
+  "name": "final_project_cmsc335",
+  "version": "1.0.1",
+  "description": "Final Project for CMSC335. A miniature website with a user database containing user's and their Pokemon of interest. Web API found at pokeapi.co . Written by Auva and Kevin for CMSC335 Final Project.",
+  "main": "pokeServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pokemon!"
+  ],
+  "author": "Auva and Kevin",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "mongodb": "^4.12.1"
+  }
+}

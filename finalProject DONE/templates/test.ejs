@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Pokemon Cards</title>
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <style>
+        body {
+          font-family: sans-serif;
+          color:black;
+      }
+    </style>
+
+  </head>
+  <body>
+    <div id="cards"></div>
+    <script>
+      const pokemon = ["charmander", "bulbasaur", "squirtle"];
+
+      const renderCard = pokemon => {
+        const cardContainer = document.createElement("div");
+        cardContainer.classList.add("card");
+        cardContainer.addEventListener("click", () => {
+          console.log(`${pokemon.name} was clicked!`);
+        });
+
+        const name = document.createElement("div");
+        name.classList.add("name");
+        name.textContent = pokemon.name;
+        cardContainer.appendChild(name);
+
+        const image = document.createElement("img");
+        image.src = pokemon.sprites.front_default;
+        cardContainer.appendChild(image);
+
+        const stats = document.createElement("div");
+        stats.classList.add("stats");
+        const height = document.createElement("div");
+        height.textContent = `Height: ${pokemon.height}`;
+        stats.appendChild(height);
+
+        const weight = document.createElement("div");
+        weight.textContent = `Weight: ${pokemon.weight}`;
+        stats.appendChild(weight);
+
+        cardContainer.appendChild(stats);
+
+        return cardContainer;
+      };
+
+      const getPokemon = async name => {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+        return await response.json();
+      };
+
+      (async () => {
+        const cardsContainer = document.getElementById("cards");
+        for (const pokemonName of pokemon) {
+          const pokemon = await getPokemon(pokemonName);
+          cardsContainer.appendChild(renderCard(pokemon));
+        }
+      })();
+    </script>
+  </body>
+</html>
